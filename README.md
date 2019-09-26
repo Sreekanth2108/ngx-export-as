@@ -120,6 +120,29 @@ const exportAsConfig: ExportAsConfig = {
     }
   }
 }
+
+// for pdf
+const exportAsConfig: ExportAsConfig = {
+  type: 'pdf', // the type you want to download
+  elementId: 'export-pdf', // the id of html
+  options: { // pdf options
+    margin: [20, 10, 20, 10],
+    jsPDF: {
+      orientation: 'p',
+      unit: 'mm',
+      format: 'a4',
+      putOnlyUsedFonts: true
+    },
+    pdfCallbackFn: (pdf) => { // pass in a function to customize pdf like adding footer/header
+      // example to add page number as footer to every page of pdf
+      const noOfPages = pdf.internal.getNumberOfPages();
+      for (let i = 1; i <= noOfPages; i++) {
+        pdf.setPage(i);
+        pdf.text('Page ' + i + ' of ' + noOfPages, pdf.internal.pageSize.getWidth() - 100, pdf.internal.pageSize.getHeight() - 30);
+      }
+    } 
+  }
+}
 ```
 
 ## Important Notes
